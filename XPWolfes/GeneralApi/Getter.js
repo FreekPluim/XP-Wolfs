@@ -5,6 +5,7 @@ const usersData = require("../Schemas/users.js")
 const gen = require("../generalfunctions.js");
 const { userMention, Colors } = require("discord.js");
 const familySchema = require("../Schemas/family-schema.js");
+const playerData = require("../Schemas/BotV2/player-schema.js");
 
 ///--------------------------------------
 ///     User data information
@@ -57,6 +58,13 @@ async function GetDay(guildId){
     else return undefined;
 }
 
+async function GetPlayerByUserID(userId, guildId){
+    const player = await playerData.findOne({User_ID: userId, Game_ID: guildId})
+
+    if(!player) return undefined;
+    return player;
+}
+
 ///--------------------------------------
 ///     Role data information
 ///--------------------------------------
@@ -92,4 +100,5 @@ module.exports = {
     GetRole,
     GetUsersFamily,
     GetFamily,
+    GetPlayerByUserID
 }
