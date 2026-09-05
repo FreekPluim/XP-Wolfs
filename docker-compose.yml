@@ -1,0 +1,30 @@
+services:
+  xp-wolves:
+    container_name: xp-wolves
+    build:
+      context: ./XPWolves
+      dockerfile: Dockerfile
+    environment:
+      - ENV=${env}
+      - TOKEN=${TOKEN}
+      - GUILD_ID=${GUILD_ID}
+      - CONN_STR=mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongodb:27017/?authSource=admin
+    volumes:
+      - ./XPWolves:/app           # Mount local folder into container
+      - /app/node_modules         # Keep container node_modules (avoid overwriting)
+    depends_on:
+      - mongodb
+      
+  mongodb:
+    container_name: mongodb
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
+      - MONGODB_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
