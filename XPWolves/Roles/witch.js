@@ -186,7 +186,7 @@ async function ResolveNight([client, game]){
 
     if(role.specialFunctions[0].killing != "" && !role.specialFunctions[0].killed){
         await gen.SendToChannel(role.channelID, "Kill", "Your target is going to die this morning", client, Colors.NotQuiteBlack);
-        await gen.SendFeedback(game._id, "Witch Kill", "The witch is killing " + userMention(role.specialFunctions[0].killing) + " tonight");
+        await gen.SendFeedback(game._id, "Witch Kill", "The witch is killing " + userMention(role.specialFunctions[0].killing) + " tonight", client);
         await gen.addToNightKilled(role.specialFunctions[0].killing, game._id, client, "witch");
 
         await rolesSchema.updateOne({guildID: game._id, roleName: "witch"}, 
@@ -240,7 +240,7 @@ async function ResolveEvening([client, game]){
 
 
 async function createRole([client, game]){
-    await rolesSchema.updateOne({guildID: game._id, roleName: "vampire-lord"}, 
+    await rolesSchema.updateOne({guildID: game._id, roleName: "witch"}, 
         {$set: {specialFunctions: [{
             canKill: false,
             killing: "",

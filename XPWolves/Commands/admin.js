@@ -227,7 +227,6 @@ module.exports = {
                             return;
                         case "revive":
                             await gen.Revive(options.getUser("target").id, guild, client);
-                            gen.noReply(interaction)
                             return;
                         case "force_join":
                             await handleForceJoin(options.getUser("target").id, guild, interaction, client);
@@ -277,6 +276,9 @@ module.exports = {
                         case 'protect':
                             HandleProtect(options, guild, interaction, client)
                             break;
+                        case 'get_alive_players':
+                            HandleGetAlivePlayers(guild, interaction, client)
+                            break;    
                         case 'block':
                             HandleBlock(options, guild, interaction, client)
                             break;
@@ -292,10 +294,17 @@ module.exports = {
     }
 }
 
+async function HandleGetAlivePlayers(guild, interaction, client)
+{
+    const alivePlayers = await users.find({guildID: guild.id, dead: false});
+    await gen.reply(interaction, `Alive players:\n ${alivePlayers.map(player => gen.getName(interaction, player._id)).join(",\n ")}`)
+}
+
+
 async function HandleKill(interaction, options, guild, client)
 {
     await gen.Kill(options.getUser("target").id, guild.id, client, guild);
-    gen.noReply(interaction)
+    
 }
 
 async function HandleAddToKilledOverNight(interaction, options, guild, client)

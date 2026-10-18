@@ -99,7 +99,7 @@ async function listenIn([client, game])
     const WWChannel = await gen.getChannel(client, WWRole.channelID);
     if(!WWChannel) return;
 
-    await gen.SendToChannel(role.channelID, "Started Listening", "You have started listening in on the werewolfs", client);
+    await gen.SendToChannel(role.channelID, "Started Listening", "You have started listening in on the werewolves", client);
 
     const m_filter = (m) => m.author.id !== 1165040345785057411;
     let messages = [];
@@ -135,12 +135,12 @@ async function listenIn([client, game])
                     }
 
                     await gen.SendToChannel(role.channelID, "Results", sendMessage, client);
-                    await gen.SendToChannel(WWRole.channelID, "Russing outside", "You feel like there was someone listening but they are gone now", client)
+ //                   await gen.SendToChannel(WWRole.channelID, "Rustling outside", "You feel like there was someone listening, but they are gone now", client)
                 });
     }).catch(async (err) => {
         //console.log(err)
         await gen.SendToChannel(role.channelID, "Results", "It was completely quiet..", client);
-        await gen.SendToChannel(WWRole.channelID, "Russing outside", "You feel like there was someone listening but they are gone now", client)
+    //    await gen.SendToChannel(WWRole.channelID, "Rustling outside", "You feel like there was someone listening, but they are gone now", client)
     });
 
     
